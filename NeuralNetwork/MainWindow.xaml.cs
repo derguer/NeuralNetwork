@@ -21,7 +21,7 @@ namespace NeuralNetwork
     public partial class MainWindow : Window
     {
         int inodes = 3, hnodes = 3, onodes = 3;
-        nn3S nn3SO;
+        nn3s nn3SO; // Dekleration der Variable nn3SO ein Objekt der Klasse nn3S
         double[] inputs;
 
         public MainWindow()
@@ -48,7 +48,7 @@ namespace NeuralNetwork
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
             if ((inodes != 0) && (hnodes != 0) && (onodes != 0))
-                nn3SO = new nn3S(inodes, hnodes, onodes);
+                nn3SO = new nn3s(inodes, hnodes, onodes); // Instanzierung des Objekts "nn3SO" 
         }
 
         private void queryButton_Click(object sender, RoutedEventArgs e)
@@ -60,7 +60,7 @@ namespace NeuralNetwork
             inputs[1] = 0.1;
             inputs[2] = 0.8;
 
-            nn3SO.queryNN(inputs);
+            nn3SO.QueryNN(inputs);
 
             for (i = 0; i < inputs.Length; i++)
             {
@@ -96,4 +96,4 @@ namespace NeuralNetwork
         public string errorOutput { get; set; }
     }
 }
-}
+
