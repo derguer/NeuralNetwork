@@ -7,14 +7,25 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000">
     <Grid>
-        <Button x:Name="queryButton" Content="QueryButton" HorizontalAlignment="Left" Margin="893,501,0,0" VerticalAlignment="Top" Width="75" Click="queryButton_Click"/>
-        <Button x:Name="trainButton" Content="TrainButton" HorizontalAlignment="Left" Margin="893,450,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="createButton" Content="CreateButton" HorizontalAlignment="Left" Margin="893,400,0,0" VerticalAlignment="Top" Width="75" Click="createButton_Click"/>
+        <Button x:Name="queryButton" Content="QueryButton" HorizontalAlignment="Left" Margin="893,501,0,0" VerticalAlignment="Top" Width="75" Click="queryButton_Click" IsEnabled="False"/>
+        <Button x:Name="trainButton" Content="TrainButton" HorizontalAlignment="Left" Margin="893,450,0,0" VerticalAlignment="Top" Width="75" Click="trainButton_Click" IsEnabled="False"/>
+        <Button x:Name="createButton" Content="CreateButton" HorizontalAlignment="Left" Margin="890,408,0,0" VerticalAlignment="Top" Width="75" Click="createButton_Click"/>
         <TextBox x:Name="outputTextBox" HorizontalAlignment="Left" Height="23" Margin="893,300,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="75" PreviewTextInput="outputTextBox_PreviewTextInput"/>
         <TextBox x:Name="hiddenTextBox" HorizontalAlignment="Left" Height="23" Margin="893,250,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="75" PreviewTextInput="hiddenTextBox_PreviewTextInput"/>
         <TextBox x:Name="inputTextBox" HorizontalAlignment="Left" Height="23" Margin="893,200,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="75" PreviewTextInput="inputTextBox_PreviewTextInput"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="893,150,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="learningRateTextBox" HorizontalAlignment="Left" Height="23" Margin="893,150,0,0" TextWrapping="Wrap" Text="0.1" VerticalAlignment="Top" Width="75" PreviewTextInput="learningRateTextBox_PreviewTextInput"/>
         <DataGrid x:Name="networkDataGrid" CanUserAddRows ="True" ItemsSource="{Binding newRow}" HorizontalAlignment="Left" Height="550" Margin="10,10,0,0" VerticalAlignment="Top" Width="800">
+            <DataGrid.Resources>
+                <!-- Stil für die Markierung -->
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <!-- Markiere Zellen in bestimmten Spalten -->
+                        <DataTrigger Binding="{Binding Path=IsCurrent}" Value="True">
+                            <Setter Property="Background" Value="LightGreen" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="InputLayer" Binding="{Binding inputValue}"/>
                 <DataGridTextColumn Header="WeightsI-H" Binding="{Binding weightsIH}"/>
@@ -34,5 +45,40 @@
         <Label Content="Output Nodes" HorizontalAlignment="Left" Margin="890,280,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.5,0.615"/>
         <Label Content="Just click on:" HorizontalAlignment="Left" Margin="854,29,0,0" VerticalAlignment="Top" Height="27"/>
         <Label Content="CreateButton -&gt; QueryButton" HorizontalAlignment="Left" Margin="821,56,0,0" VerticalAlignment="Top" Height="27"/>
+        <CheckBox x:Name="sigmoidReLu" Content="Toggle Switch"
+          HorizontalAlignment="Left"
+          Margin="884,105,0,0"
+          VerticalAlignment="Top" RenderTransformOrigin="2.3,-0.15" Checked="sigmoidReLu_Checked" Unchecked="sigmoidReLu_Checked">
+            <CheckBox.Style>
+                <Style TargetType="CheckBox">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="CheckBox">
+                                <Grid>
+                                    <!-- Hintergrund (Toggle-Schiene) -->
+                                    <Rectangle Width="40" Height="20" Fill="Gray" RadiusX="10" RadiusY="10" />
+                                    <!-- Schalter (Thumb) -->
+                                    <Rectangle x:Name="SwitchThumb" Width="17" Height="17" Fill="White" Margin="2,2,0,0" RadiusX="8" RadiusY="8" HorizontalAlignment="Left" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <!-- Zustand: Aktiviert -->
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="SwitchThumb" Property="Margin" Value="22,2,0,0" />
+                                        <Setter TargetName="SwitchThumb" Property="Fill" Value="Green" />
+                                    </Trigger>
+                                    <!-- Zustand: Deaktiviert -->
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter TargetName="SwitchThumb" Property="Fill" Value="White" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </CheckBox.Style>
+        </CheckBox>
+        <TextBlock HorizontalAlignment="Left" Margin="929,105,0,0" TextWrapping="Wrap" Text="Sigmoid" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="848,108,0,0" TextWrapping="Wrap" Text="ReLu" VerticalAlignment="Top"/>
     </Grid>
+
 </Window>
